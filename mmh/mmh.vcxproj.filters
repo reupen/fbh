@@ -6,30 +6,30 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\mmh\sha1.cpp">
+    <ClCompile Include="sha1.cpp">
       <Filter>SHA-1</Filter>
     </ClCompile>
-    <ClCompile Include="..\mmh\comptr.cpp" />
-    <ClCompile Include="..\mmh\initquit.cpp" />
-    <ClCompile Include="..\mmh\library.cpp" />
-    <ClCompile Include="..\mmh\osversion.cpp" />
-    <ClCompile Include="..\mmh\sort.cpp" />
-    <ClCompile Include="..\mmh\stdafx.cpp" />
+    <ClCompile Include="comptr.cpp" />
+    <ClCompile Include="initquit.cpp" />
+    <ClCompile Include="library.cpp" />
+    <ClCompile Include="osversion.cpp" />
+    <ClCompile Include="sort.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\mmh\sha1.h">
+    <ClInclude Include="sha1.h">
       <Filter>SHA-1</Filter>
     </ClInclude>
-    <ClInclude Include="..\mmh\completion_notify.h" />
-    <ClInclude Include="..\mmh\comptr.h" />
-    <ClInclude Include="..\mmh\exception.h" />
-    <ClInclude Include="..\mmh\initquit.h" />
-    <ClInclude Include="..\mmh\istream.h" />
-    <ClInclude Include="..\mmh\library.h" />
-    <ClInclude Include="..\mmh\osversion.h" />
-    <ClInclude Include="..\mmh\rand.h" />
-    <ClInclude Include="..\mmh\sort.h" />
-    <ClInclude Include="..\mmh\stdafx.h" />
-    <ClInclude Include="..\mmh\stream.h" />
+    <ClInclude Include="completion_notify.h" />
+    <ClInclude Include="comptr.h" />
+    <ClInclude Include="exception.h" />
+    <ClInclude Include="initquit.h" />
+    <ClInclude Include="istream.h" />
+    <ClInclude Include="library.h" />
+    <ClInclude Include="osversion.h" />
+    <ClInclude Include="rand.h" />
+    <ClInclude Include="sort.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="stream.h" />
   </ItemGroup>
 </Project>
