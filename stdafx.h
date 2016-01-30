@@ -15,6 +15,8 @@
 #include "exception.h"
 #include "library.h"
 #include "sort.h"
+#include "string.h"
+#include "thread.h"
 #include "stream.h"
 #include "istream.h"
 #include "comptr.h"

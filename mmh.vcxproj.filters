@@ -15,6 +15,7 @@
     <ClCompile Include="osversion.cpp" />
     <ClCompile Include="sort.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sha1.h">
@@ -31,5 +32,7 @@
     <ClInclude Include="sort.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stream.h" />
+    <ClInclude Include="string.h" />
+    <ClInclude Include="thread.h" />
   </ItemGroup>
 </Project>

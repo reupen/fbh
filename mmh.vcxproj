@@ -149,6 +149,7 @@
     <ClCompile Include="library.cpp" />
     <ClCompile Include="osversion.cpp" />
     <ClCompile Include="sort.cpp" />
+    <ClCompile Include="string.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -169,6 +170,8 @@
     <ClInclude Include="sort.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stream.h" />
+    <ClInclude Include="string.h" />
+    <ClInclude Include="thread.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
