@@ -86,7 +86,7 @@ namespace mmh
 		t_list & m_list;
 		bool m_stabilise;
 	public:
-		virtual int compare (const void * item1, const void* item2)
+		int compare (const void * item1, const void* item2) override
 		{
 			int ret = m_compare(m_list[*(t_size*)(item1)], m_list[*(t_size*)(item2)]);
 			if (!ret && m_stabilise) ret = pfc::compare_t(*(t_size*)(item1), *(t_size*)(item2));
@@ -134,7 +134,7 @@ namespace mmh
 		t_item * m_list;
 		bool m_stabilise, m_reverse;
 	public:
-		virtual int compare (const void * item1, const void* item2)
+		int compare (const void * item1, const void* item2) override
 		{
 			int ret = m_compare(m_list[*(t_size*)(item1)], m_list[*(t_size*)(item2)]);
 			if (m_reverse)
@@ -267,7 +267,7 @@ namespace mmh
 	template<typename t_container,typename t_compare, typename t_param>
 	class bsearch_callback_impl_simple_partial_t : public pfc::bsearch_callback {
 	public:
-		int test(t_size p_index) const {
+		int test(t_size p_index) const override {
 			return m_compare(m_container[m_base+p_index],m_param);
 		}
 		bsearch_callback_impl_simple_partial_t(const t_container & p_container,t_compare p_compare,const t_param & p_param, t_size base)

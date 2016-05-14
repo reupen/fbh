@@ -23,8 +23,8 @@ public:
 	static void g_register_instance(initquit_dynamic * ptr);
 	static void g_deregister_instance(initquit_dynamic * ptr);
 private:
-	void on_init();
-	void on_quit();
+	void on_init() override;
+	void on_quit() override;
 
 	pfc::ptr_list_t<initquit_dynamic> m_instances;
 };

@@ -11,9 +11,9 @@ namespace mmh
 			void register_callback (library_callback_t * p_callback);
 			void deregister_callback (library_callback_t * p_callback);
 		private:
-			virtual void on_items_added(const pfc::list_base_const_t<metadb_handle_ptr> & p_data);
-			virtual void on_items_removed(const pfc::list_base_const_t<metadb_handle_ptr> & p_data);
-			virtual void on_items_modified(const pfc::list_base_const_t<metadb_handle_ptr> & p_data);
+			void on_items_added(const pfc::list_base_const_t<metadb_handle_ptr> & p_data) override;
+			void on_items_removed(const pfc::list_base_const_t<metadb_handle_ptr> & p_data) override;
+			void on_items_modified(const pfc::list_base_const_t<metadb_handle_ptr> & p_data) override;
 
 			pfc::ptr_list_t<library_callback_t> m_callbacks;
 		};

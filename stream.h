@@ -13,7 +13,7 @@ public:
 		m_limit = p_limit;
 	}
 	
-	t_size read(void * p_buffer,t_size p_bytes,abort_callback & p_abort) {
+	t_size read(void * p_buffer,t_size p_bytes,abort_callback & p_abort) override {
 		if (p_bytes > m_remaining) p_bytes = (t_size)m_remaining;
 
 		t_size done = m_reader->read(p_buffer,p_bytes,p_abort);
@@ -25,7 +25,7 @@ public:
 
 	inline t_filesize get_position() const {return m_limit-m_remaining;}
 
-	t_filesize skip(t_filesize p_bytes,abort_callback & p_abort) {
+	t_filesize skip(t_filesize p_bytes,abort_callback & p_abort) override {
 		if (p_bytes > m_remaining) p_bytes = m_remaining;
 		t_filesize done = m_reader->skip(p_bytes,p_abort);
 		m_remaining -= done;
@@ -61,7 +61,7 @@ public:
 		m_data_size = dataSize;
 	}
 
-	t_size read(void * p_buffer,t_size p_bytes,abort_callback & p_abort) {
+	t_size read(void * p_buffer,t_size p_bytes,abort_callback & p_abort) override {
 		t_size remaining = m_data_size - m_pointer;
 		t_size toread = p_bytes;
 		if (toread > remaining) toread = remaining;
