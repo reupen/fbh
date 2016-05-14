@@ -93,7 +93,7 @@ namespace mmh
 			return ret;
 		}
 		sort_base_impl(t_list & p_list, permutation_t & p_perm, t_compare p_compare, bool p_stabilise)
-			: m_perm(p_perm), m_compare(p_compare), m_list(p_list), m_stabilise(p_stabilise)
+			: m_compare(p_compare), m_perm(p_perm), m_list(p_list), m_stabilise(p_stabilise)
 		{
 		};
 	};
@@ -143,7 +143,7 @@ namespace mmh
 			return ret;
 		}
 		sort_base_impl_v2(t_item * p_list, permutation_t & p_perm, t_compare p_compare, bool p_stabilise, bool b_reverse)
-			: m_perm(p_perm), m_compare(p_compare), m_list(p_list), m_stabilise(p_stabilise), m_reverse(b_reverse)
+			: m_compare(p_compare), m_perm(p_perm), m_list(p_list), m_stabilise(p_stabilise), m_reverse(b_reverse)
 		{
 		};
 	};
@@ -165,7 +165,7 @@ namespace mmh
 			return ret;
 		}
 		sort_base_impl_v3(t_item * p_list, permutation_t & p_perm, t_compare p_compare, bool p_stabilise, bool b_reverse)
-			: m_perm(p_perm), m_compare(p_compare), m_list(p_list), m_stabilise(p_stabilise), m_reverse(b_reverse)
+			: m_compare(p_compare), m_perm(p_perm), m_list(p_list), m_stabilise(p_stabilise), m_reverse(b_reverse)
 		{
 		};
 	};
@@ -186,7 +186,7 @@ namespace mmh
 			return ret;
 		}
 		sort_base_impl_v4(t_item * p_list, permutation_t & p_perm, t_compare p_compare)
-			: m_perm(p_perm), m_compare(p_compare), m_list(p_list)
+			: m_compare(p_compare), m_perm(p_perm), m_list(p_list)
 		{
 		};
 	};
