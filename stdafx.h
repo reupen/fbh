@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <WindowsX.h>
 #include <SHLWAPI.H>
+#include <VersionHelpers.h>
 
 #include "../pfc/pfc.h"
 #include "../foobar2000/shared/shared.h"
