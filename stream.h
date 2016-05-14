@@ -48,7 +48,7 @@ public:
 		pfc::assert_byte_type<typename t_array::t_item>();
 	}
 	stream_reader_memblock_ref_seekable(const void * p_data,t_size p_data_size) : m_data((const unsigned char*)p_data), m_data_size(p_data_size), m_pointer(0) {}
-	stream_reader_memblock_ref_seekable() : m_data(NULL), m_data_size(0), m_pointer(0) {}
+	stream_reader_memblock_ref_seekable() : m_data(nullptr), m_data_size(0), m_pointer(0) {}
 	
 	template<typename t_array> void set_data(const t_array & data) {
 		pfc::assert_byte_type<typename t_array::t_item>();

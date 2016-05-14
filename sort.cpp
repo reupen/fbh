@@ -40,7 +40,7 @@ namespace mmh
 				p_list.get_item_ex(item,base+n);
 				assert(item.is_valid());
 
-				item->format_title(p_hook,temp,p_script,0);
+				item->format_title(p_hook,temp,p_script,nullptr);
 				data[n].set_size(pfc::stringcvt::estimate_utf8_to_wide_quick(temp, temp.length()));
 				pfc::stringcvt::convert_utf8_to_wide_unchecked(data[n].get_ptr(), temp);
 			}
@@ -64,7 +64,7 @@ namespace mmh
 			temp.prealloc(512);
 			for(n=0;n<count;n++)
 			{
-				p_list[base+n]->format_title(p_hook,temp,p_script,0);
+				p_list[base+n]->format_title(p_hook,temp,p_script,nullptr);
 				data[n].set_size(pfc::stringcvt::estimate_utf8_to_wide_quick(temp, temp.length()));
 				pfc::stringcvt::convert_utf8_to_wide_unchecked(data[n].get_ptr(), temp);
 			}
