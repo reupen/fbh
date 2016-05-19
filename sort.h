@@ -268,10 +268,10 @@ namespace mmh
 	class bsearch_callback_impl_simple_partial_t : public pfc::bsearch_callback {
 	public:
 		int test(t_size p_index) const override {
-			return m_compare(m_container[m_base+p_index],m_param);
+			return m_compare(m_container[m_base+p_index],m_param) * (m_is_reversed ? -1 : 1);
 		}
-		bsearch_callback_impl_simple_partial_t(const t_container & p_container,t_compare p_compare,const t_param & p_param, t_size base)
-			: m_container(p_container), m_compare(p_compare), m_param(p_param), m_base(base)
+		bsearch_callback_impl_simple_partial_t(const t_container & p_container,t_compare p_compare,const t_param & p_param, t_size base, bool is_reversed = false)
+			: m_container(p_container), m_compare(p_compare), m_param(p_param), m_base(base), m_is_reversed(is_reversed)
 		{
 		}
 	private:
@@ -279,15 +279,16 @@ namespace mmh
 		t_compare m_compare;
 		const t_param & m_param;
 		t_size m_base;
+		bool m_is_reversed;
 	};
 
 	template<typename t_container,typename t_compare, typename t_param>
-	bool bsearch_partial_t(t_size p_count,const t_container & p_container,t_compare p_compare,const t_param & p_param,t_size base,t_size & p_index) 
+	bool bsearch_partial_t(t_size p_count,const t_container & p_container,t_compare p_compare,const t_param & p_param,t_size base,t_size & p_index, bool is_reversed = false) 
 	{
 		t_size index = p_index;
 		bool ret = bsearch(
 			p_count,
-			bsearch_callback_impl_simple_partial_t<t_container,t_compare,t_param>(p_container,p_compare,p_param,base),
+			bsearch_callback_impl_simple_partial_t<t_container,t_compare,t_param>(p_container,p_compare,p_param,base, is_reversed),
 			index);
 		p_index = index + base;
 		return ret;
