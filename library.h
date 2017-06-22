@@ -1,5 +1,5 @@
-#ifndef _MMH_LIBRARY_H_
-#define _MMH_LIBRARY_H_
+#pragma once
+
 
 namespace mmh
 {
@@ -28,5 +28,3 @@ namespace mmh
 		};
 	}
 };
-
-#endif //_MMH_LIBRARY_H_

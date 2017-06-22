@@ -1,5 +1,4 @@
-#ifndef _STREAM_MMH_H_
-#define _STREAM_MMH_H_
+#pragma once
 
 namespace mmh
 {
@@ -121,5 +120,4 @@ private:
 	t_size m_data_size,m_pointer;
 };
 
-};
-#endif
+}

@@ -19,10 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C90A19C3-554D-4037-B4D3-BD12C1F1AD86}</ProjectGuid>
+    <ProjectGuid>{84D30275-D3D7-4867-82D2-8031A53DCE20}</ProjectGuid>
     <RootNamespace>mmh</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>fb2k_helpers</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -144,36 +145,33 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sha1.cpp" />
-    <ClCompile Include="comptr.cpp" />
+    <ClCompile Include="fcl.cpp" />
     <ClCompile Include="initquit.cpp" />
     <ClCompile Include="library.cpp" />
-    <ClCompile Include="osversion.cpp" />
     <ClCompile Include="sort.cpp" />
-    <ClCompile Include="string.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="thread.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sha1.h" />
-    <ClInclude Include="completion_notify.h" />
-    <ClInclude Include="comptr.h" />
-    <ClInclude Include="exception.h" />
+    <ClInclude Include="config_var.h" />
+    <ClInclude Include="fcl.h" />
     <ClInclude Include="initquit.h" />
-    <ClInclude Include="istream.h" />
     <ClInclude Include="library.h" />
-    <ClInclude Include="osversion.h" />
-    <ClInclude Include="rand.h" />
     <ClInclude Include="sort.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stream.h" />
-    <ClInclude Include="string.h" />
-    <ClInclude Include="thread.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\mmh\mmh.vcxproj">
+      <Project>{c90a19c3-554d-4037-b4d3-bd12c1f1ad86}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\pfc\pfc.vcxproj">
+      <Project>{ebfffb4e-261d-44d3-b89c-957b31a0bf9c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
