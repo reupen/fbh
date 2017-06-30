@@ -1,7 +1,7 @@
-# mmh
+# fb2k_helpers
 
-mmh is a helper library containing various non-UI helper classes and functions (e.g. sorting, foobar2000 callback helpers, cryptography, Win32 and COM).
+fb2k_helpers contain a few foobar2000 helpers which were previously in the mmh and ui_helpers libraries.
  
-It is used by my foobar2000 components.
+fb2k_helpers is used by my foobar2000 components.
 
-The library is released under the Lesser GNU Public Licence (see COPYING and COPYING.LESSER).
+The library is released under the 3-Clause BSD licence (see LICENCE).
