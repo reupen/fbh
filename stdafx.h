@@ -2,6 +2,8 @@
 
 #define OEMRESOURCE
 
+#include <atomic>
+
 #include <windows.h>
 #include <SHLWAPI.H>
 
@@ -14,6 +16,7 @@
 #include "../ui_helpers/stdafx.h"
 
 #include "config_var.h"
+#include "config_object.h"
 #include "low_level_hook.h"
 #include "message_prompt.h"
 #include "fcl.h"

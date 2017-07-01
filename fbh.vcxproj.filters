@@ -18,6 +18,7 @@
     <ClInclude Include="fcl.h" />
     <ClInclude Include="message_prompt.h" />
     <ClInclude Include="low_level_hook.h" />
+    <ClInclude Include="config_object.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
