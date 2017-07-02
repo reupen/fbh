@@ -17,10 +17,11 @@
 
 #include "config_var.h"
 #include "config_object.h"
-#include "low_level_hook.h"
 #include "message_prompt.h"
 #include "fcl.h"
 #include "initquit.h"
 #include "library.h"
+#include "low_level_hook.h"
+#include "main_thread_callback.h"
 #include "sort.h"
 #include "stream.h"

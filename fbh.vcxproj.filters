@@ -19,6 +19,7 @@
     <ClInclude Include="message_prompt.h" />
     <ClInclude Include="low_level_hook.h" />
     <ClInclude Include="config_object.h" />
+    <ClInclude Include="main_thread_callback.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
