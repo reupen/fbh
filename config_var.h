@@ -40,16 +40,16 @@ namespace fbh {
     public:
         using Type = ConfigItem<ValueType, ImplType>;
 
-        void reset() { set(m_DefaultValue); }
-        void set(ValueType newValue) { m_Value = newValue; on_change(); }
-        ValueType get() const { return m_Value; };
-        ValueType getDefaultValue() const { return m_DefaultValue; }
+        void reset() { set(m_default_value); }
+        void set(ValueType newValue) { m_value = newValue; on_change(); }
+        ValueType get() const { return m_value; };
+        ValueType get_default_value() const { return m_default_value; }
 
-        operator ValueType () const { return m_Value; }
+        operator ValueType () const { return m_value; }
         Type & operator = (const ValueType & newValue) { set(newValue); return *this; }
 
         ConfigItem(const GUID & guid, ValueType defaultValue)
-            : m_Value(guid, defaultValue), m_DefaultValue(defaultValue)
+            : m_value(guid, defaultValue), m_default_value(defaultValue)
         {}
 
         virtual ~ConfigItem() {}
@@ -57,8 +57,8 @@ namespace fbh {
     protected:
         virtual void on_change() {}
     private:
-        ImplType m_Value;
-        ValueType m_DefaultValue;
+        ImplType m_value;
+        ValueType m_default_value;
     };
 
     using ConfigUint32 = ConfigItem<uint32_t>;
@@ -76,42 +76,42 @@ namespace fbh {
         // https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510%28v=vs.85%29.aspx
         void set(TInteger value, uint32_t dpi = uih::GetSystemDpiCached().cx)
         {
-            m_Value.set(value, dpi);
+            m_value.set(value, dpi);
             on_change();
         }
         void set(uih::IntegerAndDpi<TInteger> value)
         {
-            m_Value = value;
+            m_value = value;
             on_change();
         }
-        Type & operator = (TInteger value) { set(value);  return *this; }
-        Type & operator = (uih::IntegerAndDpi<TInteger> value) { set(value);  return *this; }
+        Type& operator =(TInteger value) { set(value);  return *this; }
+        Type& operator =(uih::IntegerAndDpi<TInteger> value) { set(value);  return *this; }
 
-        operator TInteger () const { return m_Value.getScaledValue(); }
-        const ValueType & getRawValue() const { return m_Value; };
+        operator TInteger () const { return m_value.getScaledValue(); }
+        const ValueType & get_raw_value() const { return m_value; };
 
-        TInteger getScaledValue() const { return m_Value.getScaledValue(); };
+        TInteger get_scaled_value() const { return m_value.getScaledValue(); };
 
         virtual void on_change() {};
-        ConfigIntegerDpiAware(const GUID & guid, TInteger value) : cfg_var(guid), m_Value(ValueType(value))
+        ConfigIntegerDpiAware(const GUID & guid, TInteger value) : cfg_var(guid), m_value(ValueType(value))
         {};
     protected:
         void get_data_raw(stream_writer * p_stream, abort_callback & p_abort) override
         {
-            p_stream->write_lendian_t(m_Value.value, p_abort);
-            p_stream->write_lendian_t(m_Value.dpi, p_abort);
+            p_stream->write_lendian_t(m_value.value, p_abort);
+            p_stream->write_lendian_t(m_value.dpi, p_abort);
         }
         void set_data_raw(stream_reader * p_stream, t_size p_sizehint, abort_callback & p_abort) override
         {
-            p_stream->read_lendian_t(m_Value.value, p_abort);
+            p_stream->read_lendian_t(m_value.value, p_abort);
             // Allow migration from older config variables
             if (p_sizehint > sizeof(TInteger))
-                p_stream->read_lendian_t(m_Value.dpi, p_abort);
+                p_stream->read_lendian_t(m_value.dpi, p_abort);
             else
-                m_Value.dpi = uih::GetSystemDpiCached().cx; //If migrating from an older config var, assume it was set using the current system DPI.
+                m_value.dpi = uih::GetSystemDpiCached().cx; //If migrating from an older config var, assume it was set using the current system DPI.
         }
     private:
-        uih::IntegerAndDpi<TInteger> m_Value;
+        uih::IntegerAndDpi<TInteger> m_value;
     };
 
     using ConfigUint32DpiAware = ConfigIntegerDpiAware<uint32_t>;
