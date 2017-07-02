@@ -3,13 +3,13 @@
 namespace fbh {
 
     namespace fcl {
-        void writer::write_item(unsigned id, const char* item)
+        void Writer::write_item(unsigned id, const char* item)
         {
             m_output->write_lendian_t(id, m_abort);
             m_output->write_string(item, m_abort);
         }
 
-        void writer::write_item(unsigned id, const LOGFONT& lfc)
+        void Writer::write_item(unsigned id, const LOGFONT& lfc)
         {
             LOGFONT lf = lfc;
             t_size face_len = pfc::wcslen_max(lf.lfFaceName, tabsize(lf.lfFaceName));
@@ -33,7 +33,7 @@ namespace fbh {
             m_output->write(&lf.lfItalic, 8 + sizeof(lf.lfFaceName), m_abort);
         }
 
-        void reader::read_item(pfc::string8& p_out, t_size size)
+        void Reader::read_item(pfc::string8& p_out, t_size size)
         {
             pfc::array_t<char> temp;
             temp.set_size(size + 1);
@@ -49,7 +49,7 @@ namespace fbh {
             m_position += size;
         }
 
-        void reader::read_item(LOGFONT& lf_out)
+        void Reader::read_item(LOGFONT& lf_out)
         {
             LOGFONT lf;
             memset(&lf, 0, sizeof(LOGFONT));
@@ -66,7 +66,7 @@ namespace fbh {
             lf_out = lf;
         }
 
-        void fcl_read_item(reader& reader, cfg_struct_t<LOGFONT>& item)
+        void fcl_read_item(Reader& reader, cfg_struct_t<LOGFONT>& item)
         {
             reader.read_item(item.get_value());
         }

@@ -119,7 +119,7 @@ namespace fbh {
 
     namespace fcl {
         template<typename t_int>
-        void fcl_read_item(reader& reader, fbh::config_item_t<t_int>& item)
+        void fcl_read_item(Reader& reader, fbh::config_item_t<t_int>& item)
         {
             item.set(reader.read_raw_item<t_int>());
         }

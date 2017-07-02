@@ -5,9 +5,9 @@ namespace fbh {
         /**
          * \brief Helper class. Used to write data to FCL files.
          */
-        class writer {
+        class Writer {
         public:
-            writer(stream_writer* p_out, abort_callback& p_abort)
+            Writer(stream_writer* p_out, abort_callback& p_abort)
                 : m_output(p_out), m_abort(p_abort) {}
 
             /**
@@ -34,7 +34,7 @@ namespace fbh {
              */
             template <
                 typename t_item,
-                decltype(fcl_write_item(std::declval<writer&>(), std::declval<unsigned>(), std::declval<t_item&>()))* = nullptr
+                decltype(fcl_write_item(std::declval<Writer&>(), std::declval<unsigned>(), std::declval<t_item&>()))* = nullptr
             >
                 void write_item(unsigned id, const t_item& item)
             {
@@ -109,7 +109,7 @@ namespace fbh {
         /**
         * \brief Helper class. Used to read data from FCL files.
         */
-        class reader {
+        class Reader {
         public:
             /**
              * \brief Reads an integer or float.
@@ -151,7 +151,7 @@ namespace fbh {
              */
             template <
                 typename t_item,
-                decltype(fcl_read_item(std::declval<reader&>(), std::declval<t_item&>()))* = nullptr
+                decltype(fcl_read_item(std::declval<Reader&>(), std::declval<t_item&>()))* = nullptr
             >
                 void read_item(t_item& p_out)
             {
@@ -229,7 +229,7 @@ namespace fbh {
              * \param size            Number of bytes in the stream
              * \param p_abort        Abort callback for all operatioins
              */
-            reader(stream_reader* p_input, t_size size, abort_callback& p_abort)
+            Reader(stream_reader* p_input, t_size size, abort_callback& p_abort)
                 : m_size(size), m_position(0), m_input(p_input), m_abort(p_abort) {}
 
             /**
@@ -239,7 +239,7 @@ namespace fbh {
              * \param size            Number of bytes in the stream
              * \param p_abort        Abort callback for all operatioins
              */
-            reader(reader& p_reader, t_size size, abort_callback& p_abort)
+            Reader(Reader& p_reader, t_size size, abort_callback& p_abort)
                 : m_size(size), m_position(0), m_input(p_reader.m_input), m_abort(p_abort)
             {
                 p_reader.m_position += size;
@@ -260,7 +260,7 @@ namespace fbh {
          * \param item        Value to write
          */
         template<typename t_int>
-        void fcl_write_item(writer& writer, unsigned id, const cfg_int_t<t_int>& item)
+        void fcl_write_item(Writer& writer, unsigned id, const cfg_int_t<t_int>& item)
         {
             writer.write_item(id, static_cast<t_int>(item));
         }
@@ -273,7 +273,7 @@ namespace fbh {
          * \param item        Output object
          */
         template<typename t_int>
-        void fcl_read_item(reader& reader, cfg_int_t<t_int>& item)
+        void fcl_read_item(Reader& reader, cfg_int_t<t_int>& item)
         {
             item = reader.read_raw_item<t_int>();
         }
@@ -284,6 +284,6 @@ namespace fbh {
          * \param reader    FCL reader
          * \param item        Output object
          */
-        void fcl_read_item(reader& reader, cfg_struct_t<LOGFONT>& item);
+        void fcl_read_item(Reader& reader, cfg_struct_t<LOGFONT>& item);
     }
 }
