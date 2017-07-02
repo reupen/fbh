@@ -16,9 +16,9 @@
     <ClInclude Include="stream.h" />
     <ClInclude Include="config_var.h" />
     <ClInclude Include="fcl.h" />
-    <ClInclude Include="message_prompt.h" />
     <ClInclude Include="low_level_hook.h" />
     <ClInclude Include="config_object.h" />
+    <ClInclude Include="info_box.h" />
     <ClInclude Include="main_thread_callback.h" />
   </ItemGroup>
   <ItemGroup>

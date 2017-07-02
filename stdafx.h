@@ -17,8 +17,8 @@
 
 #include "config_var.h"
 #include "config_object.h"
-#include "message_prompt.h"
 #include "fcl.h"
+#include "info_box.h"
 #include "initquit.h"
 #include "library.h"
 #include "low_level_hook.h"
