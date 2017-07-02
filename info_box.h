@@ -6,9 +6,8 @@ namespace fbh {
     
     static void show_info_box(HWND wnd_parent, const char* p_title, const char* p_text, INT icon = OIC_INFORMATION)
     {
-        uih::InfoBox::g_run(wnd_parent, p_title, p_text, icon,
-            std::bind(&modeless_dialog_manager::g_add, std::placeholders::_1),
-            std::bind(&modeless_dialog_manager::g_remove, std::placeholders::_1));
+        uih::InfoBox::g_run(wnd_parent, p_title, p_text, icon, modeless_dialog_manager::g_add, 
+            modeless_dialog_manager::g_remove);
     }
 
     static void show_info_box_threadsafe(HWND wnd, const char* p_title, const char* p_text, INT oem_icon = OIC_INFORMATION)
