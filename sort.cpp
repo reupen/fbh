@@ -27,7 +27,7 @@ namespace fbh {
             pfc::stringcvt::convert_utf8_to_wide_unchecked(data[n].get_ptr(), temp);
         }
 
-        g_sort_get_permutation_qsort(data, order, g_sort_metadb_handle_list_by_format_gepermutation_t_partial_compare, b_stablise);
+        mmh::sort_get_permuation(data, order, g_sort_metadb_handle_list_by_format_gepermutation_t_partial_compare, b_stablise);
     }
 
     void g_sort_metadb_handle_list_by_format_get_permutation(metadb_handle_ptr * p_list, mmh::permutation_t & order,const service_ptr_t<titleformat_object> & p_script,titleformat_hook * p_hook, bool b_stablise)
@@ -51,7 +51,7 @@ namespace fbh {
             pfc::stringcvt::convert_utf8_to_wide_unchecked(data[n].get_ptr(), temp);
         }
 
-        mmh::g_sort_get_permutation_qsort(data, order, g_sort_metadb_handle_list_by_format_gepermutation_t_partial_compare, b_stablise);
+        mmh::sort_get_permuation(data, order, g_sort_metadb_handle_list_by_format_gepermutation_t_partial_compare, b_stablise);
 
     }
     void g_sort_metadb_handle_list_by_format(pfc::list_base_t<metadb_handle_ptr> & p_list,const service_ptr_t<titleformat_object> & p_script,titleformat_hook * p_hook, bool b_stablise)

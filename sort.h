@@ -24,7 +24,7 @@ namespace fbh {
             bit_array_bittable mask(count);
             mmh::permutation_t order(count);
 
-            mmh::g_sort_get_permutation_qsort_v2(p_list, order, (pfc::compare_t<metadb_handle_ptr, metadb_handle_ptr>), false, false);
+            mmh::sort_get_permuation(p_list, order, (pfc::compare_t<metadb_handle_ptr, metadb_handle_ptr>), false, false);
 
             t_size n;
             bool found = false;
