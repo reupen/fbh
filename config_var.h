@@ -74,7 +74,7 @@ namespace fbh {
         // X and Y DPIs are always the same for 'Windows apps', according to MSDN.
         // https://msdn.microsoft.com/en-us/library/windows/desktop/dn312083%28v=vs.85%29.aspx
         // https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510%28v=vs.85%29.aspx
-        void set(TInteger value, uint32_t dpi = uih::GetSystemDpiCached().cx)
+        void set(TInteger value, uint32_t dpi = uih::get_system_dpi_cached().cx)
         {
             m_value.set(value, dpi);
             on_change();
@@ -87,10 +87,10 @@ namespace fbh {
         Type& operator =(TInteger value) { set(value);  return *this; }
         Type& operator =(uih::IntegerAndDpi<TInteger> value) { set(value);  return *this; }
 
-        operator TInteger () const { return m_value.getScaledValue(); }
+        operator TInteger () const { return m_value.get_scaled_value(); }
         const ValueType & get_raw_value() const { return m_value; };
 
-        TInteger get_scaled_value() const { return m_value.getScaledValue(); };
+        TInteger get_scaled_value() const { return m_value.get_scaled_value(); };
 
         virtual void on_change() {};
         ConfigIntegerDpiAware(const GUID & guid, TInteger value) : cfg_var(guid), m_value(ValueType(value))
@@ -108,7 +108,7 @@ namespace fbh {
             if (p_sizehint > sizeof(TInteger))
                 p_stream->read_lendian_t(m_value.dpi, p_abort);
             else
-                m_value.dpi = uih::GetSystemDpiCached().cx; //If migrating from an older config var, assume it was set using the current system DPI.
+                m_value.dpi = uih::get_system_dpi_cached().cx; //If migrating from an older config var, assume it was set using the current system DPI.
         }
     private:
         uih::IntegerAndDpi<TInteger> m_value;
