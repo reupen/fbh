@@ -1,21 +1,45 @@
 #pragma once
 
 namespace fbh {
-    void g_sort_metadb_handle_list_by_format_get_permutation_t_partial(metadb_handle_ptr * p_list, t_size p_list_count, t_size base, t_size count, mmh::permutation_t & order, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false);
-    void g_sort_metadb_handle_list_by_format_get_permutation(metadb_handle_ptr * p_list, mmh::permutation_t & order, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false);
-    void g_sort_metadb_handle_list_by_format_get_permutation_t_partial(const pfc::list_base_const_t<metadb_handle_ptr> & p_list, t_size base, t_size count, mmh::permutation_t & order, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false);
-    void g_sort_metadb_handle_list_by_format(pfc::list_base_t<metadb_handle_ptr> & p_list, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false);
+    template<typename TList>
+    void sort_metadb_handle_list_by_format_get_permutation_partial(TList&& p_list, t_size p_list_count, t_size base, t_size count, mmh::permutation_t & order, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false)
+    {
+        assert(base + count <= p_list_count);
+        pfc::array_t< pfc::array_t<WCHAR> > data;
+        data.set_size(count);
 
-    template <template<typename> class t_alloc>
-    void g_sort_metadb_handle_list_by_format_v2(metadb_handle_list_t<t_alloc> & p_list, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false)
+        concurrency::parallel_for(size_t{0}, count, [&](size_t n)
+        {
+            pfc::string8_fastalloc temp;
+            p_list[base + n]->format_title(p_hook, temp, p_script, nullptr);
+            data[n].set_size(pfc::stringcvt::estimate_utf8_to_wide_quick(temp, temp.length()));
+            pfc::stringcvt::convert_utf8_to_wide_unchecked(data[n].get_ptr(), temp);
+        });
+
+        const auto comparator = [](const pfc::array_t<WCHAR>& elem1, const pfc::array_t<WCHAR>& elem2) {
+            return StrCmpLogicalW(elem1.get_ptr(), elem2.get_ptr());
+        };
+
+        mmh::sort_get_permuation(data, order, comparator, b_stablise, false, true);
+
+    }
+
+    template<typename TList>
+    void sort_metadb_handle_list_by_format_get_permutation(TList&& p_list, mmh::permutation_t & order, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false)
+    {
+        sort_metadb_handle_list_by_format_get_permutation_partial(p_list, order.get_count(), 0, order.get_count(), order, p_script, p_hook, b_stablise);
+    }
+
+    template<typename TList>
+    void sort_metadb_handle_list_by_format(TList&& p_list, const service_ptr_t<titleformat_object> & p_script, titleformat_hook * p_hook, bool b_stablise = false)
     {
         mmh::permutation_t perm(p_list.get_count());
-        g_sort_metadb_handle_list_by_format_get_permutation_t_partial(p_list.get_ptr(), p_list.get_count(), 0, perm.get_count(), perm, p_script, p_hook, b_stablise);
+        sort_metadb_handle_list_by_format_get_permutation_partial(p_list.get_ptr(), p_list.get_count(), 0, perm.get_count(), perm, p_script, p_hook, b_stablise);
         p_list.reorder(perm.get_ptr());
     }
 
     template <template<typename> class t_alloc>
-    void g_metadb_handle_list_remove_duplicates(metadb_handle_list_t<t_alloc> & p_handles)
+    void metadb_handle_list_remove_duplicates(metadb_handle_list_t<t_alloc> & p_handles)
     {
         t_size count = p_handles.get_count();
         if (count > 0)
