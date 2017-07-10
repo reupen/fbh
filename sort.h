@@ -39,29 +39,8 @@ namespace fbh {
     }
 
     template <template<typename> class t_alloc>
-    void metadb_handle_list_remove_duplicates(metadb_handle_list_t<t_alloc> & p_handles)
+    void metadb_handle_list_remove_duplicates(metadb_handle_list_t<t_alloc>& p_handles)
     {
-        t_size count = p_handles.get_count();
-        if (count > 0)
-        {
-            metadb_handle_ptr * p_list = p_handles.get_ptr();
-            bit_array_bittable mask(count);
-            mmh::permutation_t order(count);
-
-            mmh::sort_get_permuation(p_list, order, (pfc::compare_t<metadb_handle_ptr, metadb_handle_ptr>), false, false);
-
-            t_size n;
-            bool found = false;
-            for (n = 0; n < count - 1; n++)
-            {
-                if (p_list[order[n]] == p_list[order[n + 1]])
-                {
-                    found = true;
-                    mask.set(order[n + 1], true);
-                }
-            }
-
-            if (found) p_handles.remove_mask(mask);
-        }
+        mmh::remove_duplicates(p_handles, pfc::compare_t<metadb_handle_ptr, metadb_handle_ptr>);
     }
 }
