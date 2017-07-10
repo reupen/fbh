@@ -3,7 +3,6 @@
   <ItemGroup>
     <ClCompile Include="initquit.cpp" />
     <ClCompile Include="library.cpp" />
-    <ClCompile Include="sort.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="fcl.cpp" />
     <ClCompile Include="low_level_hook.cpp" />
