@@ -3,7 +3,7 @@
 namespace fbh {
     /**
      * \brief Implementation of config_object for integers using std::atomic<> to store values in memory.
-     * \tparam int_type            Type of the integer to store
+     * \tparam int_type         Type of the integer to store
      * \tparam memory_order_    std::memory_order enum value
      */
     template<typename int_type, std::memory_order memory_order_ = std::memory_order_relaxed>
@@ -64,7 +64,7 @@ namespace fbh {
 
     /**
      * \brief Factory for ConfigObjectIntegral services.
-     * \tparam int_type            Type of the integer to store
+     * \tparam int_type         Type of the integer to store
      * \tparam memory_order_    std::memory_order enum value
      */
     template<typename int_type, std::memory_order memory_order_ = std::memory_order_relaxed>
