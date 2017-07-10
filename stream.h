@@ -1,9 +1,12 @@
 #pragma once
 
 namespace fbh {
-    class stream_reader_limited_ref : public stream_reader {
+    /**
+     * Based on stream_reader_limited_ref in foobar2000 SDK.
+     */
+    class StreamReaderLimiter : public stream_reader {
     public:
-        stream_reader_limited_ref(stream_reader * p_reader,t_filesize p_limit) : m_reader(p_reader), m_remaining(p_limit), m_limit(p_limit) {}
+        StreamReaderLimiter(stream_reader * p_reader,t_filesize p_limit) : m_reader(p_reader), m_remaining(p_limit), m_limit(p_limit) {}
         void set_data(stream_reader * p_reader,t_filesize p_limit) 
         {
             m_reader = p_reader;
@@ -39,13 +42,18 @@ namespace fbh {
         t_filesize m_remaining, m_limit;
     };
 
-    class stream_reader_memblock_ref_seekable : public stream_reader {
+    /**
+    * Based on stream_reader_memblock_ref in foobar2000 SDK. 
+    * 
+    * Not intended for general use.
+    */
+    class StreamReaderMemblock : public stream_reader {
     public:
-        template<typename t_array> stream_reader_memblock_ref_seekable(const t_array & p_array) : m_data(p_array.get_ptr()), m_data_size(p_array.get_size()), m_pointer(0) {
+        template<typename t_array> StreamReaderMemblock(const t_array & p_array) : m_data(p_array.get_ptr()), m_data_size(p_array.get_size()), m_pointer(0) {
             pfc::assert_byte_type<typename t_array::t_item>();
         }
-        stream_reader_memblock_ref_seekable(const void * p_data,t_size p_data_size) : m_data((const unsigned char*)p_data), m_data_size(p_data_size), m_pointer(0) {}
-        stream_reader_memblock_ref_seekable() : m_data(nullptr), m_data_size(0), m_pointer(0) {}
+        StreamReaderMemblock(const void * p_data,t_size p_data_size) : m_data((const unsigned char*)p_data), m_data_size(p_data_size), m_pointer(0) {}
+        StreamReaderMemblock() : m_data(nullptr), m_data_size(0), m_pointer(0) {}
     
         template<typename t_array> void set_data(const t_array & data) {
             pfc::assert_byte_type<typename t_array::t_item>();
@@ -93,9 +101,21 @@ namespace fbh {
 
             m_pointer = start + delta;
         }
-        void skip(t_size bytes,abort_callback & p_abort)
+        
+        void skip_object(t_filesize bytes, abort_callback & p_abort) override
         {
             seek_ex(file::seek_from_current, bytes, p_abort);
+        }
+
+        t_filesize skip(t_filesize bytes, abort_callback & p_abort) override
+        {
+            t_size remaining = get_remaining();
+            if (bytes >= remaining) {
+                m_pointer = m_data_size; 
+                return remaining;
+            }
+            m_pointer += static_cast<t_size>(bytes); 
+            return bytes;
         }
 
         t_int64 read_sized_int_bendian(t_uint8 size,abort_callback & p_abort)
