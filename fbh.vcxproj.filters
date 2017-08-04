@@ -6,6 +6,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="fcl.cpp" />
     <ClCompile Include="low_level_hook.cpp" />
+    <ClCompile Include="info_box.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initquit.h" />

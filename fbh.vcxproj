@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="fcl.cpp" />
+    <ClCompile Include="info_box.cpp" />
     <ClCompile Include="initquit.cpp" />
     <ClCompile Include="library.cpp" />
     <ClCompile Include="low_level_hook.cpp" />
