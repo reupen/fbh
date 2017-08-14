@@ -17,7 +17,7 @@ namespace fbh {
         class HookThread;
 
         LowLevelMouseHookManager();
-        LowLevelMouseHookManager::~LowLevelMouseHookManager();
+        ~LowLevelMouseHookManager();
         LowLevelMouseHookManager(const LowLevelMouseHookManager&) = delete;
         LowLevelMouseHookManager(LowLevelMouseHookManager&&) = delete;
 
