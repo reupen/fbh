@@ -16,8 +16,7 @@ namespace fbh {
         virtual t_type get_default_value() = 0;
         virtual void on_change() = 0;
         virtual const GUID & get_guid() = 0;
-        config_item_t(const GUID & p_guid, t_type p_value) : m_value(p_guid, p_value)
-        {};
+        config_item_t(const GUID & p_guid, t_type p_value) : m_value(p_guid, p_value) {}
     };
 
     template<>
@@ -31,8 +30,7 @@ namespace fbh {
         virtual const char * get_default_value() = 0;
         virtual void on_change() = 0;
         virtual const GUID & get_guid() = 0;
-        config_item_t(const GUID & p_guid, const char * p_value) : m_value(p_guid, p_value)
-        {};
+        config_item_t(const GUID & p_guid, const char * p_value) : m_value(p_guid, p_value) {}
     };
 
     template <typename ValueType, typename ImplType = cfg_int_t<ValueType>>
@@ -40,25 +38,49 @@ namespace fbh {
     public:
         using Type = ConfigItem<ValueType, ImplType>;
 
-        void reset() { set(m_default_value); }
-        void set(ValueType newValue) { m_value = newValue; on_change(); }
-        ValueType get() const { return m_value; };
-        ValueType get_default_value() const { return m_default_value; }
+        void reset() 
+        {
+            set(m_default_value);
+        }
+        
+        void set(ValueType newValue) 
+        {
+            m_value = newValue;
+            if (m_on_change)
+                m_on_change(m_value);
+        }
 
-        operator ValueType () const { return m_value; }
-        Type & operator = (const ValueType & newValue) { set(newValue); return *this; }
+        ValueType get() const 
+        {
+            return m_value;
+        }
 
-        ConfigItem(const GUID & guid, ValueType defaultValue)
-            : m_value(guid, defaultValue), m_default_value(defaultValue)
+        ValueType get_default_value() const
+        {
+            return m_default_value;
+        }
+
+        operator ValueType () const
+        {
+            return m_value;
+        }
+
+        Type & operator = (const ValueType & newValue)
+        {
+            set(newValue); 
+            return *this;
+        }
+
+        ConfigItem(const GUID & guid, ValueType defaultValue, std::function<void(const ValueType&)> on_change = nullptr)
+            : m_value(guid, defaultValue), m_default_value{defaultValue}, m_on_change{on_change}
         {}
 
         virtual ~ConfigItem() {}
 
-    protected:
-        virtual void on_change() {}
     private:
         ImplType m_value;
         ValueType m_default_value;
+        std::function<void(const ValueType&)> m_on_change;
     };
 
     using ConfigUint32 = ConfigItem<uint32_t>;
