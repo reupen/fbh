@@ -86,6 +86,7 @@ namespace fbh {
     using ConfigUint32 = ConfigItem<uint32_t>;
     using ConfigInt32 = ConfigItem<int32_t>;
     using ConfigBool = ConfigItem<bool>;
+    using ConfigString = ConfigItem<const char*, cfg_string>;
 
     template<typename TInteger>
     class ConfigIntegerDpiAware : public cfg_var {
