@@ -20,7 +20,7 @@ namespace fbh {
             return StrCmpLogicalW(elem1.get_ptr(), elem2.get_ptr());
         };
 
-        mmh::sort_get_permuation(data, order, comparator, b_stablise, false, true);
+        mmh::sort_get_permutation(data, order, comparator, b_stablise, false, true);
 
     }
 
