@@ -22,7 +22,7 @@
     <ProjectGuid>{84D30275-D3D7-4867-82D2-8031A53DCE20}</ProjectGuid>
     <RootNamespace>mmh</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>fbh</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
