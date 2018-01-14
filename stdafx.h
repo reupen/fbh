@@ -6,10 +6,12 @@
 
 #include <ppl.h>
 
+// Included before windows.h, because pfc.h includes winsock2.h
+#include "../pfc/pfc.h"
+
 #include <windows.h>
 #include <SHLWAPI.H>
 
-#include "../pfc/pfc.h"
 #include "../foobar2000/SDK/foobar2000.h"
 
 #include "../mmh/stdafx.h"
