@@ -54,7 +54,7 @@ namespace fbh::fcl {
             void write_item(unsigned id, const t_item& item)
         {
             write_raw(id);
-            write_raw(pfc::downcast_guarded<uint32_t>(sizeof(t_item)));
+            write_raw(gsl::narrow<uint32_t>(sizeof(t_item)));
             write_raw(item);
         }
 

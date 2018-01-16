@@ -104,7 +104,7 @@ namespace fbh {
         
         void skip_object(t_filesize bytes, abort_callback & p_abort) override
         {
-            seek_ex(file::seek_from_current, bytes, p_abort);
+            seek_ex(file::seek_from_current, gsl::narrow<t_ssize>(bytes), p_abort);
         }
 
         t_filesize skip(t_filesize bytes, abort_callback & p_abort) override
