@@ -21,6 +21,7 @@
 
 #include "config_var.h"
 #include "config_object.h"
+#include "console.h"
 #include "fcl.h"
 #include "info_box.h"
 #include "initquit.h"

@@ -20,6 +20,7 @@
     <ClInclude Include="config_object.h" />
     <ClInclude Include="info_box.h" />
     <ClInclude Include="main_thread_callback.h" />
+    <ClInclude Include="console.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

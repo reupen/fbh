@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="config_object.h" />
     <ClInclude Include="config_var.h" />
+    <ClInclude Include="console.h" />
     <ClInclude Include="fcl.h" />
     <ClInclude Include="initquit.h" />
     <ClInclude Include="library.h" />
