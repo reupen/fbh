@@ -146,5 +146,32 @@ namespace fbh {
         {
             item.set(reader.read_raw_item<t_int>());
         }
+
+        /**
+         * \brief Writes an integer held in a ConfigItem<> object to an FCL writer.
+         *
+         * \tparam t_int    Integral or floating-point type
+         * \param writer    FCL writer
+         * \param id        Item ID
+         * \param item      Value to write
+         */
+        template <typename t_int, std::enable_if_t<std::is_arithmetic_v<t_int>>* = nullptr>
+        void fcl_write_item(Writer& writer, unsigned id, const ConfigItem<t_int>& item)
+        {
+            writer.write_item(id, static_cast<t_int>(item));
+        }
+
+        /**
+         * \brief Reads an integer from an FCL reader to a ConfigItem<> object.
+         *
+         * \tparam t_int    Integral or floating-point type
+         * \param reader    FCL reader
+         * \param item      Output object
+         */
+        template <typename t_int, std::enable_if_t<std::is_arithmetic_v<t_int>>* = nullptr>
+        void fcl_read_item(Reader& reader, ConfigItem<t_int>& item)
+        {
+            item = reader.read_raw_item<t_int>();
+        }
     }
 }
