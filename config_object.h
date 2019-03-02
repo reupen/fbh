@@ -14,7 +14,7 @@ public:
     static_assert(std::is_integral<int_type>::value, "int_type must be an integral type.");
     using Type = ConfigObjectIntegral<int_type, memory_order_>;
 
-    ConfigObjectIntegral(const GUID& guid, bool default_value) : cfg_var(guid), m_guid(guid), m_value(default_value) {}
+    ConfigObjectIntegral(const GUID& guid, bool default_value) : cfg_var(guid), m_value(default_value) {}
 
     operator int_type() const { return get_value(); }
     Type& operator=(int_type new_value)
@@ -27,7 +27,7 @@ public:
     void set_value(int_type new_value) { m_value.store(new_value, memory_order_); }
 
 private:
-    GUID get_guid() const override { return m_guid; }
+    GUID get_guid() const override { return cfg_var::get_guid(); }
     void get_data(stream_writer* p_stream, abort_callback& p_abort) const override
     {
         p_stream->write_lendian_t(get_value(), p_abort);
@@ -46,7 +46,6 @@ private:
         set_data(p_stream, p_abort, false);
     }
 
-    const GUID m_guid;
     std::atomic<int_type> m_value;
 };
 
