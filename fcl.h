@@ -59,7 +59,7 @@ public:
      * \param data        Data to write
      * \param size        Number of bytes to write
      */
-    void write_item(unsigned id, const void* data, t_size size)
+    void write_item(unsigned id, const void* data, uint32_t size)
     {
         write_raw(id);
         write_raw(size);
@@ -83,7 +83,8 @@ public:
     void write_item(unsigned id, const GUID& item)
     {
         write_raw(id);
-        write_raw(sizeof(GUID));
+        constexpr uint32_t size{sizeof(GUID)};
+        write_raw(size);
         write_raw(item);
     }
 
