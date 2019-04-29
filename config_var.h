@@ -173,5 +173,40 @@ namespace fbh {
         {
             item = reader.read_raw_item<t_int>();
         }
+
+        /**
+         * \brief Writes an integer and DPI held in a ConfigIntegerDpiAware<> object to an FCL writer.
+         *
+         * \tparam t_int    Integral or floating-point type
+         * \param writer    FCL writer
+         * \param id        Item ID
+         * \param item      Value to write
+         */
+        template <typename t_int>
+        void fcl_write_item(Writer& writer, unsigned id, const ConfigIntegerDpiAware<t_int>& item)
+        {
+            const auto raw_value = item.get_raw_value();
+            static_assert(sizeof(raw_value.dpi) == sizeof(uint32_t));
+            writer.write_raw(id);
+            constexpr uint32_t size{sizeof(t_int) + sizeof(uint32_t)};
+            writer.write_raw(size);
+            writer.write_raw(raw_value.value);
+            writer.write_raw(raw_value.dpi);
+        }
+
+        /**
+         * \brief Reads an integer and DPI from an FCL reader to a ConfigIntegerDpiAware<> object.
+         *
+         * \tparam t_int    Integral or floating-point type
+         * \param reader    FCL reader
+         * \param item      Output object
+         */
+        template <typename t_int>
+        void fcl_read_item(Reader& reader, ConfigIntegerDpiAware<t_int>& item)
+        {
+            const auto value = reader.read_raw_item<t_int>();
+            const auto dpi = reader.read_raw_item<uint32_t>();
+            item.set(value, dpi);
+        }
     }
 }
