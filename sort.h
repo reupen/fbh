@@ -30,7 +30,7 @@ void sort_metadb_handle_list_by_format_get_permutation(TList&& p_list, mmh::Perm
     bool reverse = false)
 {
     sort_metadb_handle_list_by_format_get_permutation_partial(
-        p_list, order.get_count(), 0, order.get_count(), order, p_script, p_hook, stablise, reverse);
+        p_list, order.size(), 0, order.size(), order, p_script, p_hook, stablise, reverse);
 }
 
 template <typename TList>
@@ -39,8 +39,8 @@ void sort_metadb_handle_list_by_format(TList&& p_list, const service_ptr_t<title
 {
     mmh::Permutation perm(p_list.get_count());
     sort_metadb_handle_list_by_format_get_permutation_partial(
-        p_list.get_ptr(), p_list.get_count(), 0, perm.get_count(), perm, p_script, p_hook, stablise, reverse);
-    p_list.reorder(perm.get_ptr());
+        p_list.get_ptr(), p_list.get_count(), 0, perm.size(), perm, p_script, p_hook, stablise, reverse);
+    p_list.reorder(perm.data());
 }
 
 template <template <typename> class t_alloc>
