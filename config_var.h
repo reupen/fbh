@@ -3,36 +3,6 @@
 #include "fcl.h"
 
 namespace fbh {
-
-    template <typename t_type>
-    class [[deprecated("Use fbh::ConfigItem instead")]] config_item_t {
-        cfg_int_t<t_type> m_value;
-    public:
-
-        void reset() { set(get_default_value()); }
-        void set(t_type p_val) { m_value = p_val; on_change(); }
-        t_type get() const { return m_value; };
-
-        virtual t_type get_default_value() = 0;
-        virtual void on_change() = 0;
-        virtual const GUID & get_guid() = 0;
-        config_item_t(const GUID & p_guid, t_type p_value) : m_value(p_guid, p_value) {}
-    };
-
-    template<>
-    class [[deprecated("Use fbh::ConfigItem instead")]] config_item_t<pfc::string8> {
-        cfg_string m_value;
-    public:
-        void reset() { set(get_default_value()); }
-        void set(const char * p_val) { m_value = p_val; on_change(); }
-        const char * get() const { return m_value; };
-
-        virtual const char * get_default_value() = 0;
-        virtual void on_change() = 0;
-        virtual const GUID & get_guid() = 0;
-        config_item_t(const GUID & p_guid, const char * p_value) : m_value(p_guid, p_value) {}
-    };
-
     template <typename ValueType, typename ImplType = cfg_int_t<ValueType>>
     class ConfigItem {
     public:
@@ -42,12 +12,17 @@ namespace fbh {
         {
             set(m_default_value);
         }
-        
-        void set(ValueType newValue) 
+
+        void set(ValueType new_value)
         {
-            m_value = newValue;
+            ValueType old_value{};
+            if constexpr (std::is_arithmetic_v<ValueType>) {
+                old_value = m_value.get_value();
+            }
+            m_value = new_value;
+
             if (m_on_change)
-                m_on_change(m_value);
+                m_on_change(m_value, old_value);
         }
 
         ValueType get() const 
@@ -71,16 +46,28 @@ namespace fbh {
             return *this;
         }
 
-        ConfigItem(const GUID & guid, ValueType defaultValue, std::function<void(const ValueType&)> on_change = nullptr)
-            : m_value(guid, defaultValue), m_default_value{defaultValue}, m_on_change{on_change}
+        ConfigItem(const GUID& guid, ValueType default_value,
+            std::function<void(const ValueType& new_value, const ValueType& old_value)> on_change) requires
+            std::integral<ValueType> || std::floating_point<ValueType>
+            : m_value(guid, default_value)
+            , m_default_value{default_value}
+            , m_on_change{on_change}
         {}
+
+        ConfigItem(const GUID& guid, ValueType default_value,
+            std::function<void(const ValueType& new_value)> on_change = nullptr)
+            : m_value(guid, default_value)
+            , m_default_value{default_value}
+            , m_on_change{[on_change](const ValueType& new_value, const ValueType& old_value) { on_change(new_value); }}
+        {
+        }
 
         virtual ~ConfigItem() {}
 
     private:
         ImplType m_value;
         ValueType m_default_value;
-        std::function<void(const ValueType&)> m_on_change;
+        std::function<void(const ValueType&, const ValueType&)> m_on_change;
     };
 
     using ConfigUint32 = ConfigItem<uint32_t>;
@@ -141,12 +128,6 @@ namespace fbh {
     using ConfigInt32DpiAware = ConfigIntegerDpiAware<int32_t>;
 
     namespace fcl {
-        template<typename t_int>
-        void fcl_read_item(Reader& reader, fbh::config_item_t<t_int>& item)
-        {
-            item.set(reader.read_raw_item<t_int>());
-        }
-
         /**
          * \brief Writes an integer held in a ConfigItem<> object to an FCL writer.
          *
@@ -155,8 +136,9 @@ namespace fbh {
          * \param id        Item ID
          * \param item      Value to write
          */
-        template <typename t_int, std::enable_if_t<std::is_arithmetic_v<t_int>>* = nullptr>
-        void fcl_write_item(Writer& writer, unsigned id, const ConfigItem<t_int>& item)
+        template <typename t_int>
+        void fcl_write_item(Writer& writer, unsigned id,
+            const ConfigItem<t_int>& item) requires std::integral<t_int> || std::floating_point<t_int>
         {
             writer.write_item(id, static_cast<t_int>(item));
         }
@@ -168,8 +150,9 @@ namespace fbh {
          * \param reader    FCL reader
          * \param item      Output object
          */
-        template <typename t_int, std::enable_if_t<std::is_arithmetic_v<t_int>>* = nullptr>
-        void fcl_read_item(Reader& reader, ConfigItem<t_int>& item)
+        template <typename t_int>
+        void fcl_read_item(
+            Reader& reader, ConfigItem<t_int>& item) requires std::integral<t_int> || std::floating_point<t_int>
         {
             item = reader.read_raw_item<t_int>();
         }
