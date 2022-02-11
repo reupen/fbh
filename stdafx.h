@@ -3,6 +3,7 @@
 #define OEMRESOURCE
 
 #include <atomic>
+#include <concepts>
 
 #include <ppl.h>
 
