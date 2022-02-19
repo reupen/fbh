@@ -58,7 +58,11 @@ namespace fbh {
             std::function<void(const ValueType& new_value)> on_change = nullptr)
             : m_value(guid, default_value)
             , m_default_value{default_value}
-            , m_on_change{[on_change](const ValueType& new_value, const ValueType& old_value) { on_change(new_value); }}
+            , m_on_change{[on_change](const ValueType& new_value, const ValueType& old_value) {
+                if (on_change) {
+                    on_change(new_value);
+                }
+            }}
         {
         }
 
