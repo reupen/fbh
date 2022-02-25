@@ -107,9 +107,23 @@ private:
 class Reader {
 public:
     /**
+     * \brief Reads an item.
+     *
+     * \tparam t_item    Item type
+     * \return           Read item
+     */
+    template <typename t_item>
+    t_item read_item()
+    {
+        t_item item{};
+        read_item<t_item>(item);
+        return item;
+    }
+
+    /**
      * \brief Reads an integer or float.
      *
-     * \tparam t_item    Intergral or floating-point type.
+     * \tparam t_item    Integral or floating-point type.
      * \param p_out        Object that receives the read value.
      */
     template <typename t_item, std::enable_if_t<std::is_arithmetic_v<t_item>>* = nullptr>

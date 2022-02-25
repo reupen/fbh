@@ -38,8 +38,7 @@ void Reader::read_item(pfc::string8& p_out, t_size size)
     temp.fill(0);
 
     if (size) {
-        unsigned read = 0;
-        read = m_input->read(temp.get_ptr(), size, m_abort);
+        const auto read = m_input->read(temp.get_ptr(), size, m_abort);
         if (read != size)
             throw exception_io_data_truncation();
     }
