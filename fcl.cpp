@@ -19,7 +19,7 @@ void Writer::write_item(unsigned id, const LOGFONT& lfc)
     }
 
     m_output->write_lendian_t(id, m_abort);
-    m_output->write_lendian_t(sizeof lf, m_abort);
+    m_output->write_lendian_t(mmh::sizeof_t<uint32_t>(lf), m_abort);
 
     m_output->write_lendian_t(lf.lfHeight, m_abort);
     m_output->write_lendian_t(lf.lfWidth, m_abort);
