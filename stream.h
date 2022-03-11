@@ -7,7 +7,9 @@ namespace fbh {
 class StreamReaderLimiter : public stream_reader {
 public:
     StreamReaderLimiter(stream_reader* p_reader, t_filesize p_limit)
-        : m_reader(p_reader), m_remaining(p_limit), m_limit(p_limit)
+        : m_reader(p_reader)
+        , m_remaining(p_limit)
+        , m_limit(p_limit)
     {
     }
     void set_data(stream_reader* p_reader, t_filesize p_limit)
@@ -60,12 +62,16 @@ class StreamReaderMemblock : public stream_reader {
 public:
     template <typename t_array>
     StreamReaderMemblock(const t_array& p_array)
-        : m_data(p_array.get_ptr()), m_data_size(p_array.get_size()), m_pointer(0)
+        : m_data(p_array.get_ptr())
+        , m_data_size(p_array.get_size())
+        , m_pointer(0)
     {
         pfc::assert_byte_type<typename t_array::t_item>();
     }
     StreamReaderMemblock(const void* p_data, t_size p_data_size)
-        : m_data((const unsigned char*)p_data), m_data_size(p_data_size), m_pointer(0)
+        : m_data((const unsigned char*)p_data)
+        , m_data_size(p_data_size)
+        , m_pointer(0)
     {
     }
     StreamReaderMemblock() : m_data(nullptr), m_data_size(0), m_pointer(0) {}
