@@ -227,7 +227,10 @@ public:
      * \param p_abort        Abort callback for all operatioins
      */
     Reader(stream_reader* p_input, t_size size, abort_callback& p_abort)
-        : m_size(size), m_position(0), m_input(p_input), m_abort(p_abort)
+        : m_size(size)
+        , m_position(0)
+        , m_input(p_input)
+        , m_abort(p_abort)
     {
     }
 
@@ -239,7 +242,10 @@ public:
      * \param p_abort        Abort callback for all operatioins
      */
     Reader(Reader& p_reader, t_size size, abort_callback& p_abort)
-        : m_size(size), m_position(0), m_input(p_reader.m_input), m_abort(p_abort)
+        : m_size(size)
+        , m_position(0)
+        , m_input(p_reader.m_input)
+        , m_abort(p_abort)
     {
         p_reader.m_position += size;
     }
