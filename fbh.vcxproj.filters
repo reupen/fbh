@@ -7,6 +7,7 @@
     <ClCompile Include="fcl.cpp" />
     <ClCompile Include="low_level_hook.cpp" />
     <ClCompile Include="info_box.cpp" />
+    <ClCompile Include="dark_mode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initquit.h" />
@@ -21,6 +22,7 @@
     <ClInclude Include="info_box.h" />
     <ClInclude Include="main_thread_callback.h" />
     <ClInclude Include="console.h" />
+    <ClInclude Include="dark_mode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

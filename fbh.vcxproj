@@ -161,6 +161,7 @@
     <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dark_mode.cpp" />
     <ClCompile Include="fcl.cpp" />
     <ClCompile Include="info_box.cpp" />
     <ClCompile Include="initquit.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="config_object.h" />
     <ClInclude Include="config_var.h" />
     <ClInclude Include="console.h" />
+    <ClInclude Include="dark_mode.h" />
     <ClInclude Include="fcl.h" />
     <ClInclude Include="initquit.h" />
     <ClInclude Include="library.h" />

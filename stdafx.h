@@ -16,6 +16,7 @@
 #include <SHLWAPI.H>
 
 #include "../foobar2000/SDK/foobar2000.h"
+#include "../foobar2000/SDK/coreDarkMode.h"
 
 #include "../mmh/stdafx.h"
 #include "../ui_helpers/stdafx.h"
@@ -23,6 +24,7 @@
 #include "config_var.h"
 #include "config_object.h"
 #include "console.h"
+#include "dark_mode.h"
 #include "fcl.h"
 #include "info_box.h"
 #include "initquit.h"
