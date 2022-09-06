@@ -2,20 +2,48 @@
 
 namespace fbh {
 template <typename TList>
-void sort_metadb_handle_list_by_format_get_permutation_partial(TList&& p_list, t_size p_list_count, t_size base,
-    t_size count, mmh::Permutation& order, const service_ptr_t<titleformat_object>& p_script, titleformat_hook* p_hook,
-    bool stablise = false, bool reverse = false)
+void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, mmh::Permutation& order,
+    const service_ptr_t<titleformat_object>& script, titleformat_hook* hook, bool stablise = false,
+    bool reverse = false)
 {
-    assert(base + count <= p_list_count);
-    pfc::array_t<pfc::array_t<WCHAR>> data;
-    data.set_size(count);
+    const auto size = tracks.get_count();
+    assert(size == order.size());
 
-    concurrency::parallel_for(size_t{0}, count, [&](size_t n) {
-        pfc::string8_fastalloc temp;
-        p_list[base + n]->format_title(p_hook, temp, p_script, nullptr);
-        data[n].set_size(pfc::stringcvt::estimate_utf8_to_wide_quick(temp, temp.length()));
-        pfc::stringcvt::convert_utf8_to_wide_unchecked(data[n].get_ptr(), temp);
-    });
+    pfc::array_t<pfc::array_t<WCHAR>> data;
+    data.set_size(size);
+
+    const auto metadb_v2_api = metadb_v2::tryGet();
+
+    if (metadb_v2_api.is_valid()) {
+        metadb_v2_api->queryMultiParallel_(
+            tracks, [&tracks, &script, &data](size_t index, const metadb_v2::rec_t& rec) {
+                if (!rec.info.is_valid()) {
+                    data[index].set_size(1);
+                    data[index].fill(0);
+                    return;
+                }
+
+                metadb_handle_v2::ptr track;
+                track &= tracks[index];
+                const playable_location& location = track->get_location();
+
+                std::string title;
+                mmh::StringAdaptor interop_title(title);
+                track->formatTitle_v2(rec, nullptr, interop_title, script, nullptr);
+
+                data[index].set_size(pfc::stringcvt::estimate_utf8_to_wide_quick(title.c_str(), title.size()));
+                pfc::stringcvt::convert_utf8_to_wide_unchecked(data[index].get_ptr(), title.c_str());
+            });
+
+    } else {
+        concurrency::parallel_for(size_t{0}, size, [&](size_t index) {
+            std::string title;
+            mmh::StringAdaptor interop_title(title);
+            tracks[index]->format_title(hook, interop_title, script, nullptr);
+            data[index].set_size(pfc::stringcvt::estimate_utf8_to_wide_quick(title.c_str(), title.size()));
+            pfc::stringcvt::convert_utf8_to_wide_unchecked(data[index].get_ptr(), title.c_str());
+        });
+    }
 
     const auto comparator = [](const pfc::array_t<WCHAR>& elem1, const pfc::array_t<WCHAR>& elem2) {
         return StrCmpLogicalW(elem1.get_ptr(), elem2.get_ptr());
@@ -25,22 +53,12 @@ void sort_metadb_handle_list_by_format_get_permutation_partial(TList&& p_list, t
 }
 
 template <typename TList>
-void sort_metadb_handle_list_by_format_get_permutation(TList&& p_list, mmh::Permutation& order,
-    const service_ptr_t<titleformat_object>& p_script, titleformat_hook* p_hook, bool stablise = false,
-    bool reverse = false)
+void sort_metadb_handle_list_by_format(TList&& tracks, const service_ptr_t<titleformat_object>& script,
+    titleformat_hook* hook, bool stablise = false, bool reverse = false)
 {
-    sort_metadb_handle_list_by_format_get_permutation_partial(
-        p_list, order.size(), 0, order.size(), order, p_script, p_hook, stablise, reverse);
-}
-
-template <typename TList>
-void sort_metadb_handle_list_by_format(TList&& p_list, const service_ptr_t<titleformat_object>& p_script,
-    titleformat_hook* p_hook, bool stablise = false, bool reverse = false)
-{
-    mmh::Permutation perm(p_list.get_count());
-    sort_metadb_handle_list_by_format_get_permutation_partial(
-        p_list.get_ptr(), p_list.get_count(), 0, perm.size(), perm, p_script, p_hook, stablise, reverse);
-    p_list.reorder(perm.data());
+    mmh::Permutation perm(tracks.get_count());
+    sort_metadb_handle_list_by_format_get_permutation(tracks, perm, script, hook, stablise, reverse);
+    tracks.reorder(perm.data());
 }
 
 template <template <typename> class t_alloc>
