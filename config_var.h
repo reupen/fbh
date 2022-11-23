@@ -35,8 +35,8 @@ public:
     }
 
     ConfigItem(const GUID& guid, ValueType default_value,
-        std::function<void(const ValueType& new_value, const ValueType& old_value)> on_change) requires
-        std::integral<ValueType> || std::floating_point<ValueType>
+        std::function<void(const ValueType& new_value, const ValueType& old_value)> on_change)
+    requires std::integral<ValueType> || std::floating_point<ValueType>
         : m_value(guid, default_value)
         , m_default_value{default_value}
         , m_on_change{on_change}
@@ -141,8 +141,8 @@ namespace fcl {
  * \param item      Value to write
  */
 template <typename t_int>
-void fcl_write_item(Writer& writer, unsigned id,
-    const ConfigItem<t_int>& item) requires std::integral<t_int> || std::floating_point<t_int>
+void fcl_write_item(Writer& writer, unsigned id, const ConfigItem<t_int>& item)
+requires std::integral<t_int> || std::floating_point<t_int>
 {
     writer.write_item(id, static_cast<t_int>(item));
 }
@@ -155,7 +155,8 @@ void fcl_write_item(Writer& writer, unsigned id,
  * \param item      Output object
  */
 template <typename t_int>
-void fcl_read_item(Reader& reader, ConfigItem<t_int>& item) requires std::integral<t_int> || std::floating_point<t_int>
+void fcl_read_item(Reader& reader, ConfigItem<t_int>& item)
+requires std::integral<t_int> || std::floating_point<t_int>
 {
     item = reader.read_raw_item<t_int>();
 }
