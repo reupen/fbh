@@ -4,6 +4,7 @@
 
 #include <atomic>
 #include <concepts>
+#include <optional>
 
 #include <ppl.h>
 
@@ -33,3 +34,4 @@
 #include "main_thread_callback.h"
 #include "sort.h"
 #include "stream.h"
+#include "utility.h"
