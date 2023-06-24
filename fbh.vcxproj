@@ -188,6 +188,7 @@
     <ClInclude Include="sort.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stream.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mmh\mmh.vcxproj">

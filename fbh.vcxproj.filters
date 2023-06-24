@@ -23,6 +23,7 @@
     <ClInclude Include="main_thread_callback.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="dark_mode.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
