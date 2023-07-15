@@ -13,7 +13,7 @@ private:
     MSLLHOOKSTRUCT m_mllhs;
 };
 
-class LowLevelMouseHookManager::HookThread : public pfc::thread {
+class LowLevelMouseHookManager::HookThread final : public pfc::thread {
 public:
     HookThread();
     ~HookThread();

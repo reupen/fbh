@@ -25,7 +25,6 @@ void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, mmh::Perm
 
                 metadb_handle_v2::ptr track;
                 track &= tracks[index];
-                const playable_location& location = track->get_location();
 
                 std::string title;
                 mmh::StringAdaptor interop_title(title);
