@@ -16,8 +16,14 @@
 #include <windows.h>
 #include <SHLWAPI.H>
 
-#include "../foobar2000/SDK/foobar2000.h"
+#include "../foobar2000/SDK/foobar2000-lite.h"
+#include "../foobar2000/SDK/cfg_var.h"
+#include "../foobar2000/SDK/config_object.h"
 #include "../foobar2000/SDK/coreDarkMode.h"
+#include "../foobar2000/SDK/initquit.h"
+#include "../foobar2000/SDK/library_callbacks.h"
+#include "../foobar2000/SDK/main_thread_callback.h"
+#include "../foobar2000/SDK/modeless_dialog.h"
 
 #include "../mmh/stdafx.h"
 #include "../ui_helpers/stdafx.h"
