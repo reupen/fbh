@@ -99,9 +99,9 @@ public:
     }
 
     operator TInteger() const { return m_value.get_scaled_value(); }
-    const ValueType& get_raw_value() const { return m_value; };
+    const ValueType& get_raw_value() const { return m_value; }
 
-    TInteger get_scaled_value() const { return m_value.get_scaled_value(); };
+    TInteger get_scaled_value() const { return m_value.get_scaled_value(); }
 
     virtual void on_change(){};
     ConfigIntegerDpiAware(const GUID& guid, TInteger value) : cfg_var(guid), m_value(ValueType(value)){};
