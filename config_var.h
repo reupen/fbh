@@ -103,7 +103,7 @@ public:
 
     TInteger get_scaled_value() const { return m_value.get_scaled_value(); }
 
-    virtual void on_change(){};
+    virtual void on_change() {};
     ConfigIntegerDpiAware(const GUID& guid, TInteger value) : cfg_var(guid), m_value(ValueType(value)){};
 
 protected:
