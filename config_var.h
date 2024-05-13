@@ -104,7 +104,7 @@ public:
     TInteger get_scaled_value() const { return m_value.get_scaled_value(); }
 
     virtual void on_change() {};
-    ConfigIntegerDpiAware(const GUID& guid, TInteger value) : cfg_var(guid), m_value(ValueType(value)){};
+    ConfigIntegerDpiAware(const GUID& guid, TInteger value) : cfg_var(guid), m_value(ValueType(value)) {};
 
 protected:
     void get_data_raw(stream_writer* p_stream, abort_callback& p_abort) override
