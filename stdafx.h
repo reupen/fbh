@@ -16,6 +16,8 @@
 #include <windows.h>
 #include <SHLWAPI.H>
 
+#include <wil/result.h>
+
 #include "../foobar2000/SDK/foobar2000-lite.h"
 #include "../foobar2000/SDK/cfg_var.h"
 #include "../foobar2000/SDK/config_object.h"
@@ -41,3 +43,4 @@
 #include "sort.h"
 #include "stream.h"
 #include "utility.h"
+#include "wil.h"
