@@ -8,6 +8,7 @@
     <ClCompile Include="low_level_hook.cpp" />
     <ClCompile Include="info_box.cpp" />
     <ClCompile Include="dark_mode.cpp" />
+    <ClCompile Include="wil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initquit.h" />
@@ -24,6 +25,7 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="dark_mode.h" />
     <ClInclude Include="utility.h" />
+    <ClInclude Include="wil.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
