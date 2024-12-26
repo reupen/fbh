@@ -3,7 +3,7 @@
 namespace fbh {
 
 void show_info_box_modeless(HWND wnd_parent, const char* title, const char* message, uih::InfoBoxType type,
-    uih::alignment text_alignment, std::function<std::optional<INT_PTR>(HWND, UINT, WPARAM, LPARAM)> on_before_message)
+    bool no_wrap, std::function<std::optional<INT_PTR>(HWND, UINT, WPARAM, LPARAM)> on_before_message)
 {
     auto handle_before_message = [on_before_message{std::move(on_before_message)}](
                                      HWND wnd, UINT msg, WPARAM wp, LPARAM lp) -> std::optional<INT_PTR> {
@@ -15,11 +15,11 @@ void show_info_box_modeless(HWND wnd_parent, const char* title, const char* mess
         return on_before_message ? on_before_message(wnd, msg, wp, lp) : std::nullopt;
     };
 
-    uih::InfoBox::s_open_modeless(wnd_parent, title, message, type, std::move(handle_before_message), text_alignment);
+    uih::InfoBox::s_open_modeless(wnd_parent, title, message, type, std::move(handle_before_message), no_wrap);
 }
 
 INT_PTR show_info_box_modal(HWND wnd_parent, const char* title, const char* message, uih::InfoBoxType type,
-    uih::InfoBoxModalType modal_type, uih::alignment text_alignment,
+    uih::InfoBoxModalType modal_type, bool no_wrap,
     std::function<std::optional<INT_PTR>(HWND, UINT, WPARAM, LPARAM)> on_before_message)
 {
     modal_dialog_scope scope;
@@ -34,16 +34,15 @@ INT_PTR show_info_box_modal(HWND wnd_parent, const char* title, const char* mess
     };
 
     return uih::InfoBox::s_open_modal(
-        wnd_parent, title, message, type, modal_type, std::move(handle_before_message), text_alignment);
+        wnd_parent, title, message, type, modal_type, std::move(handle_before_message), no_wrap);
 }
 
 void show_info_box_modeless_threadsafe(
-    HWND wnd, const char* p_title, const char* message, uih::InfoBoxType type, uih::alignment text_alignment)
+    HWND wnd, const char* p_title, const char* message, uih::InfoBoxType type, bool no_wrap)
 {
-    queue_main_thread_callback(
-        [title = pfc::string8{p_title}, text = pfc::string8{message}, wnd, type, text_alignment]() {
-            show_info_box_modeless(wnd ? wnd : core_api::get_main_window(), title, text, type, text_alignment);
-        });
+    queue_main_thread_callback([title = pfc::string8{p_title}, text = pfc::string8{message}, wnd, type, no_wrap]() {
+        show_info_box_modeless(wnd ? wnd : core_api::get_main_window(), title, text, type, no_wrap);
+    });
 }
 
 } // namespace fbh
