@@ -15,8 +15,8 @@ public:
     static void s_deregister_instance(InitQuitDynamic* ptr);
 
 private:
-    void on_init() override;
-    void on_quit() override;
+    void on_init() noexcept override;
+    void on_quit() noexcept override;
 
     pfc::ptr_list_t<InitQuitDynamic> m_instances;
 };
