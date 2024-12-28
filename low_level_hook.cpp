@@ -20,7 +20,7 @@ public:
 
 private:
     static constexpr unsigned MSG_QUIT = WM_USER + 3;
-    static LRESULT CALLBACK s_on_event(int code, WPARAM wp, LPARAM lp);
+    static LRESULT CALLBACK s_on_event(int code, WPARAM wp, LPARAM lp) noexcept;
 
     void threadProc() override;
     HHOOK m_hook;
@@ -39,7 +39,7 @@ LowLevelMouseHookManager::HookThread::~HookThread()
     waitTillDone();
 }
 
-LRESULT LowLevelMouseHookManager::HookThread::s_on_event(int code, WPARAM wp, LPARAM lp)
+LRESULT LowLevelMouseHookManager::HookThread::s_on_event(int code, WPARAM wp, LPARAM lp) noexcept
 {
     if (code >= 0) {
         MainThreadCallback::ptr callback

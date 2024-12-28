@@ -3,12 +3,12 @@
 namespace fbh {
 initquit_factory_t<InitQuitManager> g_initquit_multiplexer;
 
-void InitQuitManager::on_init()
+void InitQuitManager::on_init() noexcept
 {
     for (t_size i = 0, count = m_instances.get_count(); i < count; i++)
         m_instances[i]->on_init();
 }
-void InitQuitManager::on_quit()
+void InitQuitManager::on_quit() noexcept
 {
     for (t_size i = 0, count = m_instances.get_count(); i < count; i++)
         m_instances[i]->on_quit();
