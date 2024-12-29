@@ -9,6 +9,7 @@
     <ClCompile Include="info_box.cpp" />
     <ClCompile Include="dark_mode.cpp" />
     <ClCompile Include="wil.cpp" />
+    <ClCompile Include="dialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="initquit.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="dark_mode.h" />
     <ClInclude Include="utility.h" />
     <ClInclude Include="wil.h" />
+    <ClInclude Include="dialog.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
