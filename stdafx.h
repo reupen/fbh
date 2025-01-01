@@ -40,8 +40,6 @@
 #include "initquit.h"
 #include "library.h"
 #include "low_level_hook.h"
-#include "main_thread_callback.h"
 #include "sort.h"
-#include "stream.h"
 #include "utility.h"
 #include "wil.h"

@@ -37,12 +37,4 @@ INT_PTR show_info_box_modal(HWND wnd_parent, const char* title, const char* mess
         wnd_parent, title, message, type, modal_type, std::move(handle_before_message), no_wrap);
 }
 
-void show_info_box_modeless_threadsafe(
-    HWND wnd, const char* p_title, const char* message, uih::InfoBoxType type, bool no_wrap)
-{
-    queue_main_thread_callback([title = pfc::string8{p_title}, text = pfc::string8{message}, wnd, type, no_wrap]() {
-        show_info_box_modeless(wnd ? wnd : core_api::get_main_window(), title, text, type, no_wrap);
-    });
-}
-
 } // namespace fbh
