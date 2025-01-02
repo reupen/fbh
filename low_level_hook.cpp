@@ -55,7 +55,7 @@ void LowLevelMouseHookManager::HookThread::threadProc()
     MSG msg;
     BOOL res;
 
-    m_hook = SetWindowsHookEx(WH_MOUSE_LL, &s_on_event, mmh::get_current_instance(), NULL);
+    m_hook = SetWindowsHookEx(WH_MOUSE_LL, &s_on_event, wil::GetModuleInstanceHandle(), NULL);
 
     while ((res = GetMessage(&msg, nullptr, 0, 0)) != 0) {
         if (res == -1) {
