@@ -2,17 +2,6 @@
 
 namespace fbh {
 
-class MainThreadCallback : public main_thread_callback {
-public:
-    MainThreadCallback(WPARAM msg, const MSLLHOOKSTRUCT& mllhs) : m_msg(msg), m_mllhs(mllhs) {}
-
-private:
-    void callback_run() override { LowLevelMouseHookManager::s_get_instance().on_event(m_msg, m_mllhs); }
-
-    WPARAM m_msg;
-    MSLLHOOKSTRUCT m_mllhs;
-};
-
 class LowLevelMouseHookManager::HookThread final : public pfc::thread {
 public:
     HookThread();
@@ -41,10 +30,10 @@ LowLevelMouseHookManager::HookThread::~HookThread()
 
 LRESULT LowLevelMouseHookManager::HookThread::s_on_event(int code, WPARAM wp, LPARAM lp) noexcept
 {
-    if (code >= 0) {
-        MainThreadCallback::ptr callback
-            = new service_impl_t<MainThreadCallback>(wp, *reinterpret_cast<LPMSLLHOOKSTRUCT>(lp));
-        callback->callback_enqueue();
+    if (code >= 0 && core_api::are_services_available()) {
+        fb2k::inMainThread([wp, msllhs{*reinterpret_cast<LPMSLLHOOKSTRUCT>(lp)}] {
+            LowLevelMouseHookManager::s_get_instance().on_event(wp, msllhs);
+        });
     }
     return CallNextHookEx(nullptr, code, wp, lp);
 }
@@ -82,6 +71,7 @@ LowLevelMouseHookManager& LowLevelMouseHookManager::s_get_instance()
 void LowLevelMouseHookManager::register_hook(HookCallback* callback)
 {
     m_callbacks.push_back(callback);
+
     if (m_callbacks.size() == 1) {
         m_hook_thread = std::make_unique<HookThread>();
     }
@@ -89,8 +79,9 @@ void LowLevelMouseHookManager::register_hook(HookCallback* callback)
 
 void LowLevelMouseHookManager::deregister_hook(HookCallback* callback)
 {
-    m_callbacks.erase(std::remove(m_callbacks.begin(), m_callbacks.end(), callback), m_callbacks.end());
-    if (m_callbacks.size() == 0) {
+    std::erase(m_callbacks, callback);
+
+    if (m_callbacks.empty()) {
         m_hook_thread.reset();
     }
 }
@@ -99,10 +90,10 @@ LowLevelMouseHookManager::LowLevelMouseHookManager() : m_hook(nullptr) {}
 
 LowLevelMouseHookManager::~LowLevelMouseHookManager()
 {
-    PFC_ASSERT(m_callbacks.size() == 0);
+    PFC_ASSERT(m_callbacks.empty());
 }
 
-void LowLevelMouseHookManager::on_event(WPARAM msg, const MSLLHOOKSTRUCT& mllhs)
+void LowLevelMouseHookManager::on_event(WPARAM msg, const MSLLHOOKSTRUCT& mllhs) const
 {
     for (auto& callback : m_callbacks)
         callback->on_hooked_message(msg, mllhs);

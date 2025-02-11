@@ -21,7 +21,7 @@ private:
     LowLevelMouseHookManager(const LowLevelMouseHookManager&) = delete;
     LowLevelMouseHookManager(LowLevelMouseHookManager&&) = delete;
 
-    void on_event(WPARAM msg, const MSLLHOOKSTRUCT& mllhs);
+    void on_event(WPARAM msg, const MSLLHOOKSTRUCT& mllhs) const;
 
     std::unique_ptr<HookThread> m_hook_thread;
     std::vector<HookCallback*> m_callbacks;
