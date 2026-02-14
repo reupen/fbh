@@ -8,12 +8,12 @@ template <typename Value, typename Impl = cfg_int_t<Value>>
 class ConfigItem {
 public:
     using ChangeEventHandler = std::conditional_t<std::is_arithmetic_v<Value>,
-        std::function<void(const Value& new_value, const Value& old_value)>,
-        std::function<void(const Value& new_value)>>;
+        std::function<void(Value new_value, Value old_value, std::optional<uint32_t> source_id)>,
+        std::function<void(const Value& new_value, std::optional<uint32_t> source_id)>>;
 
     void reset() { set(m_default_value); }
 
-    void set(Value new_value)
+    void set(Value new_value, std::optional<uint32_t> source_id = {})
     {
         if constexpr (std::is_arithmetic_v<Value>) {
             Value old_value{};
@@ -21,12 +21,12 @@ public:
             m_value = new_value;
 
             for (auto& callback : m_callbacks)
-                (*callback)(m_value, old_value);
+                (*callback)(m_value, old_value, source_id);
         } else {
             m_value = new_value;
 
             for (auto& callback : m_callbacks)
-                (*callback)(m_value);
+                (*callback)(m_value, source_id);
         }
     }
 
