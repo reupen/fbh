@@ -3,64 +3,65 @@
 #include "fcl.h"
 
 namespace fbh {
-template <typename ValueType, typename ImplType = cfg_int_t<ValueType>>
+
+template <typename Value, typename Impl = cfg_int_t<Value>>
 class ConfigItem {
 public:
-    using Type = ConfigItem<ValueType, ImplType>;
+    using ChangeEventHandler = std::conditional_t<std::is_arithmetic_v<Value>,
+        std::function<void(Value new_value, Value old_value, std::optional<uint32_t> source_id)>,
+        std::function<void(const Value& new_value, std::optional<uint32_t> source_id)>>;
 
     void reset() { set(m_default_value); }
 
-    void set(ValueType new_value)
+    void set(Value new_value, std::optional<uint32_t> source_id = {})
     {
-        ValueType old_value{};
-        if constexpr (std::is_arithmetic_v<ValueType>) {
+        if constexpr (std::is_arithmetic_v<Value>) {
+            Value old_value{};
             old_value = m_value.get_value();
-        }
-        m_value = new_value;
+            m_value = new_value;
 
-        if (m_on_change)
-            m_on_change(m_value, old_value);
+            for (auto& callback : m_callbacks)
+                (*callback)(m_value, old_value, source_id);
+        } else {
+            m_value = new_value;
+
+            for (auto& callback : m_callbacks)
+                (*callback)(m_value, source_id);
+        }
     }
 
-    ValueType get() const { return m_value; }
+    Value get() const { return m_value; }
 
-    ValueType get_default_value() const { return m_default_value; }
+    Value get_default_value() const { return m_default_value; }
 
-    operator ValueType() const { return m_value; }
+    operator Value() const { return m_value; }
 
-    Type& operator=(const ValueType& newValue)
+    ConfigItem& operator=(const Value& new_value)
     {
-        set(newValue);
+        set(new_value);
         return *this;
     }
 
-    ConfigItem(const GUID& guid, ValueType default_value,
-        std::function<void(const ValueType& new_value, const ValueType& old_value)> on_change)
-    requires std::integral<ValueType> || std::floating_point<ValueType>
-        : m_value(guid, default_value)
-        , m_default_value{default_value}
-        , m_on_change{on_change}
+    mmh::EventToken::Ptr on_change(ChangeEventHandler handler)
     {
+        return mmh::make_event_token(m_callbacks, std::move(handler));
     }
 
-    ConfigItem(
-        const GUID& guid, ValueType default_value, std::function<void(const ValueType& new_value)> on_change = nullptr)
-        : m_value(guid, default_value)
+    ConfigItem(const GUID& id, Value default_value, ChangeEventHandler on_change = nullptr)
+        : m_value(id, default_value)
         , m_default_value{default_value}
-        , m_on_change{[on_change](const ValueType& new_value, const ValueType& old_value) {
-            if (on_change) {
-                on_change(new_value);
-            }
-        }}
+
     {
+        if (on_change)
+            m_callbacks.emplace_back(std::make_shared<ChangeEventHandler>(std::move(on_change)));
     }
 
     virtual ~ConfigItem() {}
 
 private:
-    ImplType m_value;
-    ValueType m_default_value;
-    std::function<void(const ValueType&, const ValueType&)> m_on_change;
+    Impl m_value;
+    Value m_default_value;
+    std::vector<std::shared_ptr<ChangeEventHandler>> m_callbacks;
 };
 
 using ConfigUint32 = ConfigItem<uint32_t>;
