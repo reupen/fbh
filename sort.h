@@ -1,13 +1,14 @@
 #pragma once
 
 namespace fbh {
+
 template <typename TList>
-void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, mmh::Permutation& order,
+void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, std::span<size_t> permutation,
     const service_ptr_t<titleformat_object>& script, titleformat_hook* hook, bool stablise = false,
     bool reverse = false)
 {
     const auto size = tracks.get_count();
-    assert(size == order.size());
+    assert(size == permutation.size());
 
     pfc::array_t<pfc::array_t<WCHAR>> data;
     data.set_size(size);
@@ -48,7 +49,16 @@ void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, mmh::Perm
         return StrCmpLogicalW(elem1.get_ptr(), elem2.get_ptr());
     };
 
-    mmh::sort_get_permutation(data, order, comparator, stablise, reverse, true);
+    mmh::sort_get_permutation(data, permutation, comparator, stablise, reverse, true);
+}
+
+template <typename TList>
+void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, mmh::Permutation& permutation,
+    const service_ptr_t<titleformat_object>& script, titleformat_hook* hook, bool stabilise = false,
+    bool reverse = false)
+{
+    return sort_metadb_handle_list_by_format_get_permutation(
+        tracks, std::span(permutation.data(), permutation.size()), script, hook, stabilise, reverse);
 }
 
 template <typename TList>
