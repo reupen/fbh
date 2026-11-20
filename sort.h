@@ -36,7 +36,7 @@ void sort_metadb_handle_list_by_format_get_permutation(TList&& tracks, std::span
             });
 
     } else {
-        concurrency::parallel_for(size_t{0}, size, [&](size_t index) {
+        concurrency::parallel_for(0uz, size, [&](size_t index) {
             std::string title;
             mmh::StringAdaptor interop_title(title);
             tracks[index]->format_title(hook, interop_title, script, nullptr);
